@@ -21,6 +21,7 @@ mongoose.connect('mongodb+srv://hotelnewyorkapi:FhhaZhLwKOjZo4sO@hny-data.uszb9.
 const DiscordRobloxUserData = mongoose.model('DiscordRobloxUserData', new mongoose.Schema({
     robloxId: String,
     discordId: String,
+    confirmed: Boolean
 }));
 
 // Routes
@@ -30,6 +31,12 @@ app.get('/shift/users', async (req, res) => {
 });
 
 app.post('/shift/users/adduser', async (req, res) => {
+    const newItem = new DiscordRobloxUserData(req.body);
+    await newItem.save();
+    res.status(201).json(newItem);
+});
+
+app.post('/shift/users/confirmuser', async (req, res) => {
     const newItem = new DiscordRobloxUserData(req.body);
     await newItem.save();
     res.status(201).json(newItem);
